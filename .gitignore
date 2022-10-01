@@ -1,0 +1,7 @@
+obj
+.vscode
+
+# Executables
+*.exe
+*.out
+*.app

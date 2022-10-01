@@ -1,0 +1,54 @@
+########################################################################
+####################### Makefile Template ##############################
+########################################################################
+
+# Compiler settings - Can be customized.
+CC = c++
+CXXFLAGS = -g -std=c++17 -Wall -Isrc/include -DTW_STATIC -DTW_NO_LIB_PRAGMA -DTW_NO_DIRECT3D -DGLEW_STATIC -D_CRT_SECURE_NO_WARNINGS
+LDFLAGS = -lglew32 -lglfw3 -lopengl32 -lglu32 -lgdi32
+
+# Makefile settings - Can be customized.
+APPNAME = gl
+EXT = .cpp
+SRCDIR = src
+OBJDIR = obj
+
+############## Do not change anything from here downwards! #############
+SRC = $(wildcard $(SRCDIR)/*$(EXT))
+OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
+DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
+# UNIX-based OS variables & settings
+RM = rm
+DELOBJ = $(OBJ)
+# Windows OS variables & settings
+DEL = del
+EXE = .exe
+WDELOBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)\\%.o)
+
+########################################################################
+####################### Targets beginning here #########################
+########################################################################
+
+all: 
+	@mkdir -p $(OBJDIR) &2> /dev/null
+	$(MAKE) $(APPNAME)
+
+# Builds the app
+$(APPNAME): $(OBJ)
+	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Building rule for .o files and its .c/.cpp in combination with all .h
+$(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
+	$(CC) $(CXXFLAGS) -o $@ -c $<
+
+################### Cleaning rules for Unix-based OS ###################
+# Cleans complete project
+.PHONY: clean
+clean:
+	$(RM) $(DELOBJ) $(APPNAME)
+
+#################### Cleaning rules for Windows OS #####################
+# Cleans complete project
+.PHONY: cleanw
+cleanw:
+	$(DEL) $(WDELOBJ) $(APPNAME)$(EXE)
