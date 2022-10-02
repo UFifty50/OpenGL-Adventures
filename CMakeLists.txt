@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-include(ExternalProject)
+
 #if ( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
 #    message( FATAL_ERROR "In-source builds not allowed. Please make a new directory and run CMake from there. You may need to remove CMakeCache.txt." )
 #endif()
@@ -30,7 +30,7 @@ set(objloader "ASSIMP")
 
 add_definitions(-DGLEW_STATIC)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/assimp EXCLUDE_FROM_ALL)
-add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glew EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glew/build/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glfw EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glm EXCLUDE_FROM_ALL)
 
@@ -75,19 +75,6 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 
 
-# include the glew submodule
-#ExternalProject_Add(project_glew
-#  PREFIX ${CMAKE_SOURCE_DIR}/thirdparty/glew
-#  SOURCE_DIR ${CMAKE_SOURCE_DIR}/thirdparty/glew
-#  TMP_DIR ${CMAKE_SOURCE_DIR}/obj/
-#  BINARY_DIR ${CMAKE_SOURCE_DIR}/obj/
-#  INSTALL_DIR ${CMAKE_SOURCE_DIR}/obj/
-#  CONFIGURE_COMMAND ""
-#  BUILD_COMMAND cmake . -G "Ninja"
-#  BUILD_IN_SOURCE false
-#  INSTALL_COMMAND ninja
-#  IMPORTED_LOCATION
-#)
 add_library(glew::glew ALIAS glew)
 add_library(glfw::glfw ALIAS glfw)
 add_library(glm::assimp ALIAS glm)
