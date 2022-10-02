@@ -10,10 +10,9 @@ using namespace std;
 #include <stdlib.h>
 #include <string.h>
 
-#include <GL/glew.h>
+#include "GL/glew.h"
 
 #include "shader.hpp"
-#include "common.hpp"
 
 GLuint loadShaders(const char* vertex_file_path, const char* fragment_file_path){
 

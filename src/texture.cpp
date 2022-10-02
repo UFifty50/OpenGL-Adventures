@@ -4,10 +4,8 @@
 #include <array>
 #include <utility>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-#include "common.hpp"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 
 GLuint loadBMP(const char* imagePath) {

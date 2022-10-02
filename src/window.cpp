@@ -1,9 +1,7 @@
 #include <stdio.h>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-
-#include "common.hpp"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 
 
 GLFWwindow* window(int width, int height, char* title, GLFWmonitor* monitor, GLFWwindow* share) {

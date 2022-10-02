@@ -3,17 +3,17 @@
 #include <string>
 #include <cstring>
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 #include "objloader.hpp"
-#include "common.hpp"
+#include "AnEngineConfig.hpp"
 
 #ifdef USE_ASSIMP
 
 // Include AssImp
-#include <assimp/Importer.hpp>      // C++ importer interface
-#include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>     // Post processing flags
+#include "assimp/Importer.hpp"      // C++ importer interface
+#include "assimp/scene.h"           // Output data structure
+#include "assimp/postprocess.h"     // Post processing flags
 
 bool loadAssImp(
 	const char * path, 

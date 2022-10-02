@@ -31,7 +31,13 @@ WDELOBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)\\%.o)
 
 all: 
 	@mkdir -p $(OBJDIR) &2> /dev/null
+	@mkdir -p $(OBJDIR)/assimp &2> /dev/null
+	
 	$(MAKE) $(APPNAME)
+
+assimp:
+	@cd thirdparty/assimp
+	cmake CMakeLists.txt -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="../obj" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="../obj" -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="../obj" -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles"
 
 # Builds the app
 $(APPNAME): $(OBJ)

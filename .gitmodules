@@ -12,4 +12,4 @@
 
 [submodule "glew"]
 	path = thirdparty/glew
-	url = https://github.com/nigels-com/glew
+	url = https://github.com/Perlmint/glew-cmake

@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <vector>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #include "window.hpp"
 #include "shader.hpp"
 #include "controls.hpp"
 #include "objloader.hpp"
-#include "common.hpp"
+#include "AnEngineConfig.hpp"
 #include "texture.hpp"
 
 using namespace glm;

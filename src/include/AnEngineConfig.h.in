@@ -1,0 +1,3 @@
+#define USE_@OBJLOADER@
+#define VERSION_MAJOR @AnEngine_VERSION_MAJOR@
+#define VERSION_MINOR @AnEngine_VERSION_MINOR@

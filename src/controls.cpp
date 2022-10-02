@@ -1,11 +1,10 @@
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 //extern GLFWwindow* window; // hack to get around circular dependency
 
 #include "controls.hpp"
-#include "common.hpp"
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 using namespace glm;
 
 
