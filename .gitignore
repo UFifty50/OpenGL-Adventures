@@ -1,6 +1,6 @@
-obj
 .vscode
 build
+bin
 
 # Executables
 *.exe
