@@ -3,6 +3,6 @@
 
 #include <GLFW/glfw3.h>
 
-GLFWwindow* window(int width, int height, char* title, GLFWmonitor* monitor, GLFWwindow* share);
+GLFWwindow* window(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
 
 #endif

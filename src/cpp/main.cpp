@@ -100,7 +100,7 @@ int main() {
             (void*)0            // array buffer offset
         );
 
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);

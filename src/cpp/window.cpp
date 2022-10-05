@@ -4,7 +4,7 @@
 #include "glm/glm.hpp"
 
 
-GLFWwindow* window(int width, int height, char* title, GLFWmonitor* monitor, GLFWwindow* share) {
+GLFWwindow* window(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share) {
     glewExperimental = true;
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
