@@ -4,6 +4,7 @@ bin
 
 # Executables
 *.exe
+*.dll
 *.out
 *.app
 
