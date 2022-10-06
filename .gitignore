@@ -6,7 +6,6 @@ bin
 *.exe
 *.dll
 *.out
-*.dll
 *.app
 
 src/include/AnEngineConfig.hpp
