@@ -94,7 +94,7 @@ GLuint loadDDS(const char * imagePath) {
 
 	fread(&header, 124, 1, fp); 
 
-	unsigned int height = *(unsigned int*)&(header[8 ]);
+	unsigned int height = *(unsigned int*)&(header[8]);
 	unsigned int width = *(unsigned int*)&(header[12]);
 	unsigned int linearSize = *(unsigned int*)&(header[16]);
 	unsigned int mipMapCount = *(unsigned int*)&(header[24]);
@@ -105,7 +105,7 @@ GLuint loadDDS(const char * imagePath) {
 	unsigned int bufsize;
 
 	bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize; 
-	buffer = (unsigned char*)malloc(bufsize* sizeof(unsigned char)); 
+	buffer = (unsigned char*)malloc(bufsize * sizeof(unsigned char)); 
 	fread(buffer, 1, bufsize, fp); 
 
 	fclose(fp);
@@ -143,7 +143,7 @@ GLuint loadDDS(const char * imagePath) {
 			0, size, buffer + offset); 
 	 
 		offset += size; 
-		width  /= 2; 
+		width /= 2; 
 		height /= 2; 
 
 		if(width < 1) width = 1;

@@ -49,6 +49,7 @@ set(${PROJECT_NAME}_sources
     ${SOURCE_DIR}/cpp/controls.cpp
     ${SOURCE_DIR}/cpp/texture.cpp
     ${SOURCE_DIR}/cpp/window.cpp
+    ${SOURCE_DIR}/cpp/VBOindexer.cpp
 )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_sources})

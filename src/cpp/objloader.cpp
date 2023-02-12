@@ -50,7 +50,7 @@ bool loadOBJ(
         } else if (strcmp(lineHeader, "vt") == 0) {
             glm::vec2 uv;
             fscanf(file, "%f %f\n", &uv.x, &uv.y);
-            if (mode == 0) uv.y = -uv.y;
+            if (mode == DDS) uv.y = -uv.y;
             tempUVs.push_back(uv);
         } else if (strcmp(lineHeader, "vn") == 0) {
             glm::vec3 normal;
@@ -64,7 +64,7 @@ bool loadOBJ(
                                  &vertexIndex[1], &uvIndex[1], &normalIndex[1],
                                  &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
             if (matches != 9) {
-                printf("File can't be read by our simple parser :-( Try exporting with other options\n");
+                printf("File can't be read by this simple parser :( Try exporting with other options\n");
                 fclose(file);
                 return false;
             }

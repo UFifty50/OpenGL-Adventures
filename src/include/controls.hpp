@@ -3,11 +3,13 @@
 
 #include <glm/glm.hpp>
 
+namespace controls {
+    double DeltaTime();
+    void computeMatricesFromInputs(GLFWwindow* window, float deltaTime);
+    glm::mat4 getViewMatrix();
+    glm::mat4 getProjectionMatrix();
 
-void computeMatricesFromInputs(GLFWwindow* window);
-glm::mat4 getViewMatrix();
-glm::mat4 getProjectionMatrix();
-
-void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+    void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+}
 
 #endif

@@ -5,31 +5,32 @@
 
 
 GLFWwindow* window(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share) {
-    glewExperimental = true;
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
-        return nullptr;
+        return NULL;
     }
 
-    glfwWindowHint(GLFW_SAMPLES, 8);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window;
     window = glfwCreateWindow(width, height, title, monitor, share);
-    if (window == nullptr) {
+    if (window == NULL) {
         fprintf(stderr, "Failed to open GLFW window.\n");
         glfwTerminate();
-        return nullptr;
+        return NULL;
     }
 
     glfwMakeContextCurrent(window);
     glewExperimental = true;
+    glfwSwapInterval(0);
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW.");
-        return nullptr;
+        glfwTerminate();
+        return NULL;
     }
 
     return window;

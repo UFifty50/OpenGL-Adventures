@@ -6,6 +6,6 @@
 
 // GLuint loadPNG(const char * imagePath);
 GLuint loadBMP(const char* imagePath);
-GLuint loadDDS(const char * imagePath);
+GLuint loadDDS(const char* imagePath);
 
 #endif
