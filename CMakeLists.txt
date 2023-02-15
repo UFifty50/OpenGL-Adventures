@@ -8,6 +8,7 @@ set(PROJECT_NAME AnEngine)
 project(${PROJECT_NAME} VERSION 0.0.1)
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(CMAKE_BUILD_TYPE Debug)
 
 # export compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -37,7 +38,7 @@ if(${objloader} STREQUAL "ASSIMP")
         add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/assimp EXCLUDE_FROM_ALL)
         set(assimp assimp::assimp)
 endif()
-#add_definitions(-DGLEW_STATIC)
+add_definitions(-DGLEW_STATIC)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glew/build/cmake EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glfw EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_SOURCE_DIR}/thirdparty/glm EXCLUDE_FROM_ALL)
@@ -50,6 +51,7 @@ set(${PROJECT_NAME}_sources
     ${SOURCE_DIR}/cpp/texture.cpp
     ${SOURCE_DIR}/cpp/window.cpp
     ${SOURCE_DIR}/cpp/VBOindexer.cpp
+    ${SOURCE_DIR}/cpp/text2D.cpp
 )
 
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_sources})
@@ -85,9 +87,9 @@ if(GCC)
         TARGET ${PROJECT_NAME}
         PROPERTY CXX_GCC "${GCC}")
 endif()
+
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
-
 
 add_library(glew::glew ALIAS glew)
 add_library(glfw::glfw ALIAS glfw)
@@ -102,6 +104,7 @@ configure_file(${SOURCE_DIR}/include/AnEngineConfig.h.in ${SOURCE_DIR}/include/A
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     message("Debug mode")
     add_definitions(-DDEBUG)
+    add_compile_options(-g)
 endif()
 
 # after compilation, copy shaders, textures and objects into into build directory

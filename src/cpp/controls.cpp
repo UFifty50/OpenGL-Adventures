@@ -42,7 +42,7 @@ namespace controls {
     }
 
     double DeltaTime() {
-        double currentTime = glfwGetTime();
+        double currentTime = ::glfwGetTime();
         double deltaTime = currentTime - lastTime;
         controls::lastTime = currentTime;
         return deltaTime;
@@ -52,12 +52,12 @@ namespace controls {
 
         // Get mouse position
         double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
+        ::glfwGetCursorPos(window, &xpos, &ypos);
 
         int width, height;
-        glfwGetWindowSize(window, &width, &height);
+        ::glfwGetWindowSize(window, &width, &height);
         // Reset mouse position for next frame
-        glfwSetCursorPos(window, width/2, height/2);
+        ::glfwSetCursorPos(window, width/2, height/2);
 
         // Compute new orientation
         horizontalAngle += mouseSpeed * float(width/2 - xpos);
@@ -72,40 +72,40 @@ namespace controls {
         );
         
         // Right vector
-        glm::vec3 right = glm::vec3(
-            sin(horizontalAngle - 3.14f/2.0f), 
+        glm::vec3 right(
+            sin(horizontalAngle - std::numbers::pi_v<float>/2.0f), 
             0,
-            cos(horizontalAngle - 3.14f/2.0f)
+            cos(horizontalAngle - std::numbers::pi_v<float>/2.0f)
         );
 
         // Worldspace up vector
-        glm::vec3 worldUp = glm::vec3(0,1,0);
+        glm::vec3 worldUp(0,1,0);
         
         // Up vector
         glm::vec3 up = glm::cross(right, direction);
 
         // Move forward
-        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
             position += direction * deltaTime * speed;
         }
         // Move backward
-        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
             position -= direction * deltaTime * speed;
         }
         // Strafe right
-        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
             position += right * deltaTime * speed;
         }
         // Strafe left
-        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
             position -= right * deltaTime * speed;
         }
         // Move up relative to world space
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
             position += worldUp * deltaTime * speed;
         }
         // Move down relative to world space
-        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        if (::glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
             position -= worldUp * deltaTime * speed;
         }
 

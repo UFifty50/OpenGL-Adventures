@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
+#include <ios>
+#include <string>
 #include <string.h>
 #include <array>
 #include <utility>
@@ -8,35 +12,36 @@
 #include "GLFW/glfw3.h"
 
 
-GLuint loadBMP(const char* imagePath) {
-    printf("Reading image %s\n", imagePath);
+GLuint loadBMP(std::string const& imagePath) {
+    std::cout << "Reading image " << imagePath << std::endl;
+	
+	std::ifstream file;
 
-    unsigned char header[54];
+    std::string header;
     unsigned int dataPos;
     unsigned int imageSize;
     unsigned int width, height;
-    unsigned char* data;
 
-    FILE* file = fopen(imagePath, "rb");
-    if (!file) {
-        printf("%s could not be opened.\nPress any key to continue...", imagePath);
-        getchar();
-        return 0;
+    std::string data;
+
+    file.open(imagePath, std::ios::in | std::ios::binary);
+	if (!file.is_open()) {
+        std::cout << imagePath << " could not be opened."<< std::endl;
+        return -1;
     }
 
-    if (fread(header, 1, 54, file) != 54) {
-        printf("%s is not a correct BMP file.\n", imagePath);
-        fclose(file);
-        return 0;
-    }
+	file.read(header.data(), 54);
+	if (file.eof()) {
+		std::cout << imagePath << " is not a correct BMP file." << std::endl;
+		file.close();
+		return -1;
+	}
 
-    if (header[0] != 'B' || header[1] != 'M') {
-        printf("%s is not a correct BMP file.\n", imagePath);
-        fclose(file);
-        return 0;
+    if (header.at(0) != 'B' || header.at(1) != 'M') {
+		std::cout << imagePath << " is not a correct BMP file." << std::endl;
+        file.close();
+        return -1;
     }
-
-    //TODO: check bppp
 
     dataPos = *(int*)&(header[0x0A]);
     imageSize = *(int*)&(header[0x22]);
@@ -46,22 +51,20 @@ GLuint loadBMP(const char* imagePath) {
     if (imageSize == 0) imageSize = width*height*3;
     if (dataPos == 0) dataPos = 54;
 
-    data = new unsigned char [imageSize];
-    fread(data, 1, imageSize, file);
-    fclose(file);
+
+	file.read(data.data(), imageSize);
+    file.close();
 
     GLuint textureID;
-    glGenTextures(1, &textureID);
+    ::glGenTextures(1, &textureID);
 
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+    ::glBindTexture(GL_TEXTURE_2D, textureID);
+    ::glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data.c_str());
 
-    delete[] data;
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    ::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
     return textureID;
@@ -71,7 +74,7 @@ constexpr unsigned int FOURCC_DXT1 = 0x31545844;
 constexpr unsigned int FOURCC_DXT3 = 0x33545844;
 constexpr unsigned int FOURCC_DXT5 = 0x35545844;
 
-GLuint loadDDS(const char * imagePath) {
+GLuint loadDDS(const char* imagePath) {
 
     unsigned char header[124];
 
@@ -80,16 +83,15 @@ GLuint loadDDS(const char * imagePath) {
 
 	fp = fopen(imagePath, "rb"); 
 	if (fp == nullptr){
-		printf("%s could not be opened.\nPress any key to continue...", imagePath);
-        getchar(); 
-		return 0;
+		printf("%s could not be opened.", imagePath);
+		return -1;
 	}
 
     char filecode[4];
 	fread(filecode, 1, 4, fp); 
 	if (strncmp(filecode, "DDS ", 4) != 0) { 
 		fclose(fp);
-		return 0;
+		return -1;
 	}
 
 	fread(&header, 124, 1, fp); 
@@ -130,7 +132,6 @@ GLuint loadDDS(const char * imagePath) {
 	GLuint textureID;
 	glGenTextures(1, &textureID);
 
-	glBindTexture(GL_TEXTURE_2D, textureID);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);	
 	
 	unsigned int blockSize = (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16; 
@@ -154,4 +155,15 @@ GLuint loadDDS(const char * imagePath) {
 	free(buffer); 
 
 	return textureID;
+}
+
+GLuint loadTexture(std::string const& imagePath) {
+	if (imagePath.ends_with(".dds") || imagePath.ends_with(".DDS") ||
+	    imagePath.ends_with(".Dds") || imagePath.ends_with(".dDs") ||
+		imagePath.ends_with(".ddS") || imagePath.ends_with(".DdS") ||
+		imagePath.ends_with(".dDS") || imagePath.ends_with(".DDs")) {
+		return ::loadDDS(imagePath.c_str());
+	} else {
+		return ::loadBMP(imagePath);
+	}
 }

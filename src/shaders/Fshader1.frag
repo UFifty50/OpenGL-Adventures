@@ -1,4 +1,4 @@
-#version 330 core
+#version 460 core
 
 
 in vec2 UV;
@@ -39,5 +39,5 @@ void main() {
         matDiffuseColour * lightColour * lightIntensity * cosTheta / (distance*distance) +
         // Specular
         matSpecularColour * lightColour * lightIntensity * pow(cosAlpha, 5) / (distance*distance);
-    colour.a = 0.3;
+    colour.a = 1;
 }

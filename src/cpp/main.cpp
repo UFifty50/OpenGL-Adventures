@@ -14,6 +14,7 @@
 #include "objloader.hpp"
 #include "texture.hpp"
 #include "VBOindexer.hpp"
+#include "text2D.hpp"
 
 using namespace glm;
 
@@ -35,7 +36,7 @@ int main() {
 
     ::glEnable(GL_DEPTH_TEST);
     ::glDepthFunc(GL_LESS);
-   // ::glEnable(GL_CULL_FACE);
+    ::glEnable(GL_CULL_FACE);
 
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
@@ -64,7 +65,6 @@ int main() {
     std::vector<glm::vec3> indexedNormals;
 
     ::fast_indexVBO(vertices, uvs, normals, indices, indexedVertices, indexedUVs, indexedNormals);
-    
 
     GLuint vertexBuffer;
     glGenBuffers(1, &vertexBuffer);
@@ -89,11 +89,15 @@ int main() {
     glUseProgram(programID);
     GLuint lightID = glGetUniformLocation(programID, "world_LightPos");
 
+    Text2D text2D("textures/charMap.DDS");
+
     ::glEnable(GL_BLEND);
     ::glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     int frames = 0;
     float lastTime = ::glfwGetTime();
+    char fps[256];
+    ::sprintf(fps, "0 ms/frame\t0 fps");
 
     do {
         // print fps
@@ -101,7 +105,9 @@ int main() {
         auto deltaTime = controls::DeltaTime();
         frames++;
         if (currentTime - lastTime >= 1.0) {
-            ::printf("%f ms/frame\t%d fps\n", 1000.0 / double(frames), frames);
+            //std::string fps = std::format("{} ms/frame\t{} fps", 1000.0 / deltaTime, 1.0 / deltaTime);
+            ::sprintf(fps, "%f ms/frame\t%d fps", deltaTime, (int)(1.0 / deltaTime));
+            ::printf("%s\n", fps);
             frames = 0;
             lastTime += 1.0;
         }
@@ -119,7 +125,7 @@ int main() {
         glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, &modelMatrix[0][0]);
         glUniformMatrix4fv(viewMatrixID, 1, GL_FALSE, &viewMatrix[0][0]);
         
-        glm::vec3 lightPos = glm::vec3(4, 4, 4);
+        glm::vec3 lightPos(4, 4, 4);
         glUniform3f(lightID, lightPos.x, lightPos.y, lightPos.z);
         
         glActiveTexture(GL_TEXTURE0);
@@ -171,7 +177,9 @@ int main() {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
-        
+
+        text2D.printText2D(std::string(fps), 5, 550, 30);
+
         ::glfwSwapBuffers(win);
         ::glfwPollEvents();
 
@@ -185,6 +193,7 @@ int main() {
     glDeleteProgram(programID);
     ::glDeleteTextures(1, &texture);
     glDeleteVertexArrays(1, &VertexArrayID);
+    text2D.cleanUp();
     ::glfwTerminate();
 
     return 0;
