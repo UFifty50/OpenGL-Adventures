@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: install stuff
-      run: sudo apt install ninja-build build-essential
+      run: sudo apt install ninja-build build-essential mesa-utils libglu1-mesa-dev freeglut3-dev mesa-common-dev
       
     - name: Checkout repository and submodules
       uses: actions/checkout@v2
